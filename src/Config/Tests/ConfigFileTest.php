@@ -6,16 +6,10 @@ use PHPUnit\Framework\TestCase;
 use Pantono\Core\Config\File;
 use Pantono\Core\Config\Parser\IniFileParser;
 use Pantono\Core\Config\Parser\YamlFileParser;
-use Pantono\Utilities\CacheHelper;
 use Symfony\Component\Yaml\Tag\TaggedValue;
 
 class ConfigFileTest extends TestCase
 {
-    public function setUp(): void
-    {
-        CacheHelper::clearAllCache();
-    }
-
     public function testIniFile(): void
     {
         $path = __DIR__ . '/Data/test-config-ini.ini';

@@ -52,7 +52,7 @@ abstract class Application
         if (file_exists($basePath . '/conf') && is_dir($basePath . '/conf')) {
             RegisterConfigPath::registerPath($basePath . '/conf');
         }
-        $modulesInstalled = glob($basePath . '/vendor/rbg/*');
+        $modulesInstalled = glob($basePath . '/vendor/pantono/*');
         if ($modulesInstalled !== false) {
             foreach ($modulesInstalled as $module) {
                 if (file_exists($module . '/conf') && is_dir($module . '/conf')) {
@@ -118,6 +118,12 @@ abstract class Application
     private function loadCache(): void
     {
         $path = realpath(ApplicationHelper::getApplicationRoot() . '/cache');
+        if ($path === false) {
+            throw new \RuntimeException('Unable to initialise application with cache path not existing');
+        }
+        if (is_writable($path) === false) {
+            throw new \RuntimeException('Unable to initialise application with cache path not writable');
+        }
         $this->container->addService('FilesystemCache', new FilesystemAdapter('', 3600, $path));
     }
 
@@ -164,6 +170,7 @@ abstract class Application
             $collection->addEventListener($name, $listener);
         }
         $collection->registerSubscribers();
+        $this->container->addService('EventListenerCollection', $collection);
     }
 
     private function loadValidators(): void
@@ -198,7 +205,7 @@ abstract class Application
         $locator = $this->container->getLocator();
         $router = new Router($locator);
         $endpointCollection = new EndpointCollection();
-        foreach ($this->container->getConfig()->getConfigForType('commands')->getAllData() as $name => $config) {
+        foreach ($this->container->getConfig()->getConfigForType('endpoints')->getAllData() as $name => $config) {
             $endpoint = EndpointDefinition::fromConfigArray($name, $config);
             $endpointCollection->addEndpoint($endpoint);
             $router->registerEndpoint($endpoint);

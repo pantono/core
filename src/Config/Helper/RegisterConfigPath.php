@@ -33,7 +33,7 @@ class RegisterConfigPath implements EventSubscriberInterface
 
     public static function registerModule(string $module): void
     {
-        $path = sprintf('%s/vendor/rbg/%s/conf', ApplicationHelper::getApplicationRoot(), $module);
+        $path = sprintf('%s/vendor/pantono/%s/conf', ApplicationHelper::getApplicationRoot(), $module);
         if (!file_exists($path)) {
             throw new \RuntimeException('Unable to locate service ' . $module . ' has composer install been run? (Path: ' . $path . ')');
         }

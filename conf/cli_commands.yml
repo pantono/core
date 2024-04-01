@@ -1,10 +1,10 @@
 ListServices:
-  class: Rbg\Core\CommandLine\Command\ListServicesCommand
+  class: Pantono\Core\CommandLine\Command\ListServicesCommand
 ListEndpoints:
-  class: Rbg\Core\CommandLine\Command\ListEndpointsCommand
+  class: Pantono\Core\CommandLine\Command\ListEndpointsCommand
 CreateEndpoint:
-  class: Rbg\Core\CommandLine\Command\CreateEndpointCommand
+  class: Pantono\Core\CommandLine\Command\CreateEndpointCommand
 CreateCommand:
-  class: Rbg\Core\CommandLine\Command\CreateCommandLineCommand
+  class: Pantono\Core\CommandLine\Command\CreateCommandLineCommand
 GenerateUnitTest:
-  class: Rbg\Core\CommandLine\Command\GenerateUnitTestCommand
+  class: Pantono\Core\CommandLine\Command\GenerateUnitTestCommand
