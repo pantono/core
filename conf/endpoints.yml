@@ -1,0 +1,11 @@
+ping:
+  route: /ping
+  controller: Rbg\Core\Application\Command\Ping
+  method: GET
+  title: Ping
+  description: Ping
+  security_gates:
+    - ValidApiToken
+    - ValidUserToken
+  fields:
+

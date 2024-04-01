@@ -1,0 +1,6 @@
+EventHelper:
+  class: Rbg\Core\Events\EventHelper
+FilesystemCache:
+  class: Pantono\Core\Cache\Factory\FilesystemCacheFactory
+  parameters:
+    - $cache.path

@@ -1,0 +1,14 @@
+ValidDate:
+  class: Rbg\Core\Validator\Validator\ValidDate
+  options:
+    date_format:
+      required: false
+      default: Y-m-d
+    future:
+      required: false
+      default: false
+    past:
+      required: false
+      default: false
+ValidEmail:
+  class: Rbg\Core\Validator\Validator\ValidEmail
