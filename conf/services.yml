@@ -1,5 +1,5 @@
 EventHelper:
-  class: Rbg\Core\Events\EventHelper
+  class: Pantono\Core\Events\EventHelper
 FilesystemCache:
   class: Pantono\Core\Cache\Factory\FilesystemCacheFactory
   parameters:

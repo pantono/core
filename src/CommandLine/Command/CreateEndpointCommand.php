@@ -34,7 +34,7 @@ class CreateEndpointCommand extends Command
 
     protected function configure()
     {
-        $this->setName('endpoints:generate')
+        $this->setName('endpoint:generate')
             ->addArgument('name', InputArgument::REQUIRED, 'Name (key) of the endpoint');
     }
 

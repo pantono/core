@@ -18,6 +18,9 @@ class FilesystemCacheFactory implements FactoryInterface
     public function createInstance(): FilesystemAdapter
     {
         $path = realpath(ApplicationHelper::getApplicationRoot() . '/' . $this->path);
+        if ($path === false) {
+            throw new \RuntimeException('Cache directory ' . $this->path . ' is not accessible');
+        }
         return new FilesystemAdapter('', 3600, $path);
     }
 }

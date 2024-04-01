@@ -1,5 +1,5 @@
 ValidDate:
-  class: Rbg\Core\Validator\Validator\ValidDate
+  class: Pantono\Core\Validator\Validator\ValidDate
   options:
     date_format:
       required: false
@@ -11,4 +11,4 @@ ValidDate:
       required: false
       default: false
 ValidEmail:
-  class: Rbg\Core\Validator\Validator\ValidEmail
+  class: Pantono\Core\Validator\Validator\ValidEmail

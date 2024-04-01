@@ -20,7 +20,7 @@ class ListEndpointsCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('endpoints:list');
+        $this->setName('endpoint:list');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

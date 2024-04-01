@@ -1,6 +1,6 @@
 ping:
   route: /ping
-  controller: Rbg\Core\Application\Command\Ping
+  controller: Pantono\Core\Application\Endpoint\Ping
   method: GET
   title: Ping
   description: Ping
