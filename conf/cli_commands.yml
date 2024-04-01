@@ -1,0 +1,10 @@
+ListServices:
+  class: Rbg\Core\CommandLine\Command\ListServicesCommand
+ListEndpoints:
+  class: Rbg\Core\CommandLine\Command\ListEndpointsCommand
+CreateEndpoint:
+  class: Rbg\Core\CommandLine\Command\CreateEndpointCommand
+CreateCommand:
+  class: Rbg\Core\CommandLine\Command\CreateCommandLineCommand
+GenerateUnitTest:
+  class: Rbg\Core\CommandLine\Command\GenerateUnitTestCommand
