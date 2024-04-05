@@ -10,7 +10,6 @@
     "pantono/utilities": "^1.0",
     "pimple/pimple": "^3.5",
     "league/fractal": "0.20.1",
-    "symfony/yaml": "^6.3",
     "nikic/fast-route": "v1.3.0",
     "crell/serde": "^1.0",
     "symfony/http-kernel": "^7.0",
@@ -22,7 +21,8 @@
     "pagerfanta/pagerfanta": "^4.3",
     "ext-pdo": "*",
     "pantono/container": "^1.0",
-    "symfony/cache": "^7.0"
+    "symfony/cache": "^7.0",
+    "pantono/config": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "10.3.4",
