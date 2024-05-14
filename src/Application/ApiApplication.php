@@ -59,7 +59,7 @@ class ApiApplication extends Application
                 $data['line'] = $e->getLine();
             }
             $code = $e->getCode();
-            if ($e instanceof HttpException) {
+            if ($e instanceof HttpException && $e->getStatusCode() > 0) {
                 $code = $e->getStatusCode();
             }
             $statusCode = isset(JsonResponse::$statusTexts[$code]) ? $e->getCode() : 400;
