@@ -58,12 +58,12 @@ class ApiApplication extends Application
                 $data['file'] = $e->getFile();
                 $data['line'] = $e->getLine();
             }
-            if ($e instanceof NotFoundHttpException) {
-                $code = 404;
-            } else {
-                $code = isset(JsonResponse::$statusTexts[$e->getCode()]) ? $e->getCode() : 400;
+            $code = $e->getCode();
+            if ($e instanceof HttpException) {
+                $code = $e->getStatusCode();
             }
-            $response = new JsonResponse(['data' => $data], $code);
+            $statusCode = isset(JsonResponse::$statusTexts[$code]) ? $e->getCode() : 400;
+            $response = new JsonResponse(['data' => $data], $statusCode);
         } catch (\Exception $e) {
             $data = ['success' => false, 'error' => $e->getMessage()];
             if ($debug) {
