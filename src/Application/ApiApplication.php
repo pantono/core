@@ -62,7 +62,7 @@ class ApiApplication extends Application
             if ($e instanceof HttpException && $e->getStatusCode() > 0) {
                 $code = $e->getStatusCode();
             }
-            $statusCode = isset(JsonResponse::$statusTexts[$code]) ? $e->getCode() : 400;
+            $statusCode = isset(JsonResponse::$statusTexts[$code]) ? $code : 400;
             $response = new JsonResponse(['data' => $data], $statusCode);
         } catch (\Exception $e) {
             $data = ['success' => false, 'error' => $e->getMessage()];
