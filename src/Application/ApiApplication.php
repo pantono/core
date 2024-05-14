@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Pantono\Core\Router\Router;
 use Pantono\Container\StaticContainer;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApiApplication extends Application
 {
@@ -57,7 +58,11 @@ class ApiApplication extends Application
                 $data['file'] = $e->getFile();
                 $data['line'] = $e->getLine();
             }
-            $code = isset(JsonResponse::$statusTexts[$e->getCode()]) ? $e->getCode() : 500;
+            if ($e instanceof NotFoundHttpException) {
+                $code = 404;
+            } else {
+                $code = isset(JsonResponse::$statusTexts[$e->getCode()]) ? $e->getCode() : 400;
+            }
             $response = new JsonResponse(['data' => $data], $code);
         } catch (\Exception $e) {
             $data = ['success' => false, 'error' => $e->getMessage()];
