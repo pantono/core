@@ -54,7 +54,9 @@ class Router implements ControllerResolverInterface, RouterInterface
         return function () use ($endpoint, $request) {
             $instance = $this->createControllerInstance($endpoint);
             $instance->setRequest($request);
-            $instance->setSession($this->locator->getContainer()['service_Session']);
+            if ($this->locator->getContainer()->has('service_Session')) {
+                $instance->setSession($this->locator->getContainer()['service_Session']);
+            }
             $instance->setSecurityContext($this->locator->getContainer()->getSecurityContext());
             $instance->setEndpoint($endpoint);
             $event = new PreRequestEvent();
