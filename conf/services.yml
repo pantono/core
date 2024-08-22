@@ -4,3 +4,8 @@ FilesystemCache:
   class: Pantono\Core\Cache\Factory\FilesystemCacheFactory
   parameters:
     - $cache.path
+Twig:
+  class: Pantono\Core\Factory\TwigFactory
+  parameters:
+    - $twig.path
+    - $twig.options
