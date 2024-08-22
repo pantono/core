@@ -66,6 +66,8 @@ abstract class Application
         if ($container === null) {
             $container = new Container();
         }
+        $this->container = $container;
+        StaticContainer::setContainer($container);
         $releaseTimestampFile = ApplicationHelper::getApplicationRoot() . '/release_timestamp';
         if (file_exists($releaseTimestampFile)) {
             $data = file_get_contents($releaseTimestampFile);
@@ -77,8 +79,6 @@ abstract class Application
         if ($dispatcher === null) {
             $dispatcher = new EventDispatcher();
         }
-        $this->container = $container;
-        StaticContainer::setContainer($container);
         $collection = new ServiceCollection();
         if (!$this->container->hasService('ServiceCollection')) {
             $this->container->addService('ServiceCollection', $collection);
