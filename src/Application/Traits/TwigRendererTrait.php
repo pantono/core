@@ -4,6 +4,7 @@ namespace Pantono\Core\Application\Traits;
 
 use Pantono\Container\StaticContainer;
 use Twig\Environment;
+use Pantono\Hydrator\Locator\StaticLocator;
 
 trait TwigRendererTrait
 {
@@ -12,7 +13,7 @@ trait TwigRendererTrait
         /**
          * @var Environment $twig
          */
-        $twig = StaticContainer::getLocator()->loadDependency('@Twig');
+        $twig = StaticLocator::getLocator()->loadDependency('@Twig');
         return $twig->render($template, $variables);
     }
 }
