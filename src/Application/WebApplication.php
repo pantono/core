@@ -49,16 +49,16 @@ class WebApplication extends Application
         try {
             $response = $kernel->handle($request);
         } catch (MethodNotAllowedHttpException $e) {
-            $response = new Response($this->render('views/error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), 405);
+            $response = new Response($this->render('error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), 405);
         } catch (ApiException|HttpException|RuntimeException $e) {
             $code = $e->getCode();
             if ($e instanceof HttpException && $e->getStatusCode() > 0) {
                 $code = $e->getStatusCode();
             }
             $statusCode = isset(JsonResponse::$statusTexts[$code]) ? $code : 400;
-            $response = new Response($this->render('views/error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), $statusCode);
+            $response = new Response($this->render('error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), $statusCode);
         } catch (\Exception $e) {
-            $response = new Response($this->render('views/error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), 500);
+            $response = new Response($this->render('error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), 500);
         }
         $response->send();
         $kernel->terminate($request, $response);
