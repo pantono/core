@@ -7,6 +7,7 @@ use Twig\Loader\FilesystemLoader;
 use Pantono\Utilities\ApplicationHelper;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
+use Pantono\Core\Application\Extensions\Twig\TwigDumpExtension;
 
 class TwigFactory implements FactoryInterface
 {
@@ -28,7 +29,7 @@ class TwigFactory implements FactoryInterface
         ]);
 
         $twig = new Environment($loader, $this->twigOptions);
-        $twig->addExtension(new DebugExtension());
+        $twig->addExtension(new TwigDumpExtension());
         return $twig;
     }
 }
