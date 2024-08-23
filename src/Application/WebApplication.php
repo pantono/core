@@ -29,7 +29,9 @@ class WebApplication extends Application
     {
         parent::bootstrap();
         $this->initSession();
+        $this->initShutdownHandler();
     }
+
 
     public function run(): int
     {
@@ -63,6 +65,23 @@ class WebApplication extends Application
         $response->send();
         $kernel->terminate($request, $response);
         return 0;
+    }
+
+    private function initShutdownHandler(): void
+    {
+        register_shutdown_function(function () {
+            $error = error_get_last();
+            if (isset($error['type']) && $error['type'] === E_ERROR) {
+                $debug = $this->container->getConfig()->getApplicationConfig()->getValue('debug');
+                $options = [];
+                if ($debug) {
+                    $options = ['error' => $error['message'], 'file' => $error['file'], 'line' => $error['line']];
+                }
+                header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+                echo $this->render('errors/error.twig', $options);
+                die(1);
+            }
+        });
     }
 
     private function initSession(): void
