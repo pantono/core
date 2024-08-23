@@ -6,6 +6,7 @@ use Pantono\Contracts\Locator\FactoryInterface;
 use Twig\Loader\FilesystemLoader;
 use Pantono\Utilities\ApplicationHelper;
 use Twig\Environment;
+use Twig\Extension\DebugExtension;
 
 class TwigFactory implements FactoryInterface
 {
@@ -26,6 +27,8 @@ class TwigFactory implements FactoryInterface
             ApplicationHelper::getApplicationRoot() . '/vendor/pantono/core/views'
         ]);
 
-        return new Environment($loader, $this->twigOptions);
+        $twig = new Environment($loader, $this->twigOptions);
+        $twig->addExtension(new DebugExtension());
+        return $twig;
     }
 }
