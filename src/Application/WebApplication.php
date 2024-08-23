@@ -78,7 +78,7 @@ class WebApplication extends Application
                     $options = ['error' => $error['message'], 'file' => $error['file'], 'line' => $error['line']];
                 }
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-                echo $this->render('errors/error.twig', $options);
+                echo $this->render('error.twig', $options);
                 die(1);
             }
         });
