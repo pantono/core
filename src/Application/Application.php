@@ -132,6 +132,7 @@ abstract class Application
         $this->container->getEventDispatcher()->addSubscriber(new RegisterConfigPath());
         $config = new Config($this->container->getEventDispatcher(), $this->container->getService('FilesystemCache'));
         $this->container['config'] = $config;
+        $this->container->addService('Config', $config);
     }
 
     private function loadServices(): void
