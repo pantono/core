@@ -21,7 +21,7 @@ final class TwigDumpExtension extends AbstractExtension
             return '';
         }
         ob_start();
-        dump($vars);
+        dump($vars[0]);
         return ob_get_clean();
     }
 }
