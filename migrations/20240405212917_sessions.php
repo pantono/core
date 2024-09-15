@@ -19,6 +19,6 @@ final class Sessions extends AbstractMigration
 
     public function down(): void
     {
-        $this->table('sessions')->drop();
+        $this->table('sessions')->drop()->update();
     }
 }
