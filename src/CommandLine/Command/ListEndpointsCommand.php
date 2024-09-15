@@ -27,14 +27,15 @@ class ListEndpointsCommand extends Command
     {
         $rows = [];
         $table = new Table($output);
-        $table->setHeaders(['Name', 'Method', 'Route', 'Controller']);
+        $table->setHeaders(['Name', 'Method', 'Route', 'Controller', 'Security Gates']);
         foreach ($this->collection->getAllEndpoints() as $endpoint) {
             $exists = class_exists($endpoint->getController());
             $rows[] = [
                 $endpoint->getId(),
                 $endpoint->getMethod(),
                 $endpoint->getRoute(),
-                $endpoint->getController() . (!$exists ? ' ***' : '')
+                $endpoint->getController() . (!$exists ? ' ***' : ''),
+                implode(', ', $endpoint->getSecurityGates())
             ];
         }
         $table->setRows($rows);
