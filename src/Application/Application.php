@@ -204,12 +204,10 @@ abstract class Application
          * @var Locator $locator
          */
         $locator = $this->container->getLocator();
-        $router = new Router($locator);
         $endpointCollection = new EndpointCollection();
+        $router = new Router($locator, $endpointCollection);
         foreach ($this->container->getConfig()->getConfigForType('endpoints')->getAllData() as $name => $config) {
-            $endpoint = EndpointDefinition::fromConfigArray($name, $config);
-            $endpointCollection->addEndpoint($endpoint);
-            $router->registerEndpoint($endpoint);
+            $router->registerEndpoint(EndpointDefinition::fromConfigArray($name, $config));
         }
         $this->container->addService('Router', $router);
         $this->container->addService('EndpointCollection', $endpointCollection);

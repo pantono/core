@@ -26,10 +26,10 @@ class Router implements ControllerResolverInterface, RouterInterface
     private Locator $locator;
     private EndpointCollection $collection;
 
-    public function __construct(Locator $locator)
+    public function __construct(Locator $locator, EndpointCollection $endpointCollection)
     {
         $this->locator = $locator;
-        $this->collection = new EndpointCollection();
+        $this->collection = $endpointCollection;
     }
 
     public function registerEndpoint(EndpointDefinitionInterface $endpoint): void
