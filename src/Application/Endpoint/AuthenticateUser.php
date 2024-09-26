@@ -43,7 +43,7 @@ class AuthenticateUser extends AbstractEndpoint
             $this->userAuthentication->saveUser($user);
         }
         $token = $this->userAuthentication->addTokenForUser($user);
-        $this->session->set('UserToken', $token->getToken());
+        $this->session->set('api_token', $token->getToken());
 
         return new Item(['success' => true], new GenericArrayDecorator());
     }
