@@ -6,8 +6,8 @@ parameters:
     - vendor/autoload.php
   excludePaths:
     - "*/Tests/*"
-  checkGenericClassInNonGenericObjectType: false
   ignoreErrors:
+    - identifier: missingType.generics
     - message: '#^Method (.*)::(.*) return type has no value type specified in iterable type array.$#'
     - message: '#^Method (.*)::(.*) has parameter (.*) with no value type specified in iterable type array.$#'
     - message: '#^Property (.*)::(.*) type has no value type specified in iterable type array.$#'
