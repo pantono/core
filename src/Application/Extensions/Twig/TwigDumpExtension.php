@@ -15,13 +15,14 @@ final class TwigDumpExtension extends AbstractExtension
         ];
     }
 
-    public static function dump(Environment $env, $context, ...$vars): string
+    public static function dump(Environment $env, mixed ...$vars): string
     {
         if (!$env->isDebug()) {
             return '';
         }
         ob_start();
         dump($vars[0]);
-        return ob_get_clean();
+        $str = ob_get_clean();
+        return $str ?: '';
     }
 }

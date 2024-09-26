@@ -5,7 +5,21 @@ ping:
   title: Ping
   description: Ping
   security_gates:
-    - ValidApiToken
-    - ValidUserToken
   fields:
+authenticate:
+  route: /login
+  controller: Pantono\Core\Application\Endpoint\AuthenticateUser
+  method: POST
+  title: Login
+  description: Login
+  security_contexts:
+  fields:
+    email_address:
+      required: true
+      label: E-mail address
+      type: string
+    password:
+      required: true
+      label: Password
+      type: string
 
