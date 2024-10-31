@@ -15,7 +15,7 @@ final class TwigDumpExtension extends AbstractExtension
         ];
     }
 
-    public static function dump(Environment $env, mixed ...$vars): string
+    public static function dump(Environment $env, array $arg = [], mixed ...$vars): string
     {
         if (!$env->isDebug()) {
             return '';
