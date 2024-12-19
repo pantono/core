@@ -37,6 +37,9 @@ class RequestSecurityValidator
             }
             $this->runValidation((string)$gateName, $request, $endpoint, $fields);
         }
+        foreach ($this->collection->getGlobalGates() as $gate) {
+            $this->runValidation($gate->getName(), $request, $endpoint, []);
+        }
     }
 
     private function runValidation(string $gateName, Request $request, EndpointDefinition $endpoint, array $fields): void

@@ -20,6 +20,7 @@ use Pantono\Contracts\Filter\PageableInterface;
 abstract class AbstractEndpoint
 {
     use LocatorAwareTrait;
+
     private Request $request;
     private ParameterBag $securityContext;
     private ?Session $session = null;
@@ -70,7 +71,7 @@ abstract class AbstractEndpoint
 
     public function getCurrentUser(): ?User
     {
-        return $this->securityContext->get('staff_member');
+        return $this->securityContext->get('user');
     }
 
     protected function paginateResults(TransformerAbstract $transformer, array $results, int $total, int $perPage, int $pageNumber = 1): Collection
