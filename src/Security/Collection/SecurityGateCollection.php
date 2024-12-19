@@ -20,4 +20,18 @@ class SecurityGateCollection
     {
         return $this->gates[$name] ?? null;
     }
+
+    /**
+     * @return SecurityGate[]
+     */
+    public function getGlobalGates(): array
+    {
+        $global = [];
+        foreach ($this->gates as $gate) {
+            if ($gate->isGlobal()) {
+                $global[] = $gate;
+            }
+        }
+        return $global;
+    }
 }
