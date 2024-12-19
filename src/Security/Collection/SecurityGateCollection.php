@@ -24,6 +24,14 @@ class SecurityGateCollection
     /**
      * @return SecurityGate[]
      */
+    public function getAllGates(): array
+    {
+        return $this->gates;
+    }
+
+    /**
+     * @return SecurityGate[]
+     */
     public function getGlobalGates(): array
     {
         $global = [];
