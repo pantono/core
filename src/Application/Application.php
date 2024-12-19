@@ -186,6 +186,7 @@ abstract class Application
     private function loadSecurityGates(): void
     {
         $gateCollection = new SecurityGateCollection();
+        $this->container->addService('SecurityGateCollection', $gateCollection);
         foreach ($this->container->getConfig()->getConfigForType('security_gates')->getAllData() as $name => $config) {
             $gateCollection->addGate(SecurityGate::fromArray($name, $config));
         }
