@@ -9,4 +9,4 @@ CreateCommand:
 GenerateUnitTest:
   class: Pantono\Core\CommandLine\Command\GenerateUnitTestCommand
 ListSecurityGates:
-  class: Pantono\Core\CommandLine\Command\ListSecurityGates
+  class: Pantono\Core\CommandLine\Command\ListSecurityGatesCommand
