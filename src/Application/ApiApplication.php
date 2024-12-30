@@ -85,7 +85,7 @@ class ApiApplication extends Application
         $connectionCollection = $this->container->getService('DatabaseConnectionCollection');
         $db = $connectionCollection->getConnectionForParent(MysqlRepository::class);
         $handler = new PdoSessionHandler($db->getConnection(), ['db_table' => 'sessions', 'lock_mode' => PdoSessionHandler::LOCK_NONE]);
-        $storage = new NativeSessionStorage(['use_strict_mode' => 0, 'gc_maxlifetime' => (86400 * 365)], $handler);
+        $storage = new NativeSessionStorage(['use_strict_mode' => 0, 'gc_maxlifetime' => (86400 * 365), 'cookie_lifetime' => (86400 * 365), 'cookie_httponly' => true, 'cookie_samesite' => 'strict'], $handler);
         $session = new Session($storage);
         $session->start();
         $this->container->addService('Session', $session);
