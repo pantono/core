@@ -16,6 +16,7 @@ use League\Fractal\Pagination\PagerfantaPaginatorAdapter;
 use Pantono\Core\Application\Helper\PaginationArrayAdapter;
 use Pantono\Hydrator\Traits\LocatorAwareTrait;
 use Pantono\Contracts\Filter\PageableInterface;
+use Pantono\Authentication\Exception\AccessDeniedException;
 
 abstract class AbstractEndpoint
 {
@@ -71,6 +72,17 @@ abstract class AbstractEndpoint
 
     public function getCurrentUser(): ?User
     {
+        return $this->securityContext->get('user');
+    }
+
+    public function getCurrentUserOrThrow(): User
+    {
+        if (!$this->securityContext->get('user')) {
+            throw new AccessDeniedException('You are not logged in');
+        }
+        if ($this->securityContext->get('user') instanceof User === false) {
+            throw new AccessDeniedException('Invalid user record found');
+        }
         return $this->securityContext->get('user');
     }
 
