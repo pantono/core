@@ -230,6 +230,17 @@ abstract class Application
             if ($this->container->hasService('DatabaseConnectionCollection')) {
                 $this->container->getService('DatabaseConnectionCollection')->closeConnections();
             }
+            $error = error_get_last();
+            if ($error && $error['type'] === E_ERROR) {
+                $data = ['error' => 'An application error occurred'];
+                if ($this->container->hasService('Config') && $this->container->getConfig()->getApplicationConfig()->getValue('debug') === true) {
+                    $data = ['error' => $error['message'], 'file' => $error['file'], 'line' => $error['line']];
+                }
+                header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+                header('Content-Type: application/json');
+                echo json_encode($data);
+                exit;
+            }
         });
     }
 }
