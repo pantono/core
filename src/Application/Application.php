@@ -236,10 +236,16 @@ abstract class Application
                 if ($this->container->hasService('Config') && $this->container->getConfig()->getApplicationConfig()->getValue('debug') === true) {
                     $data = ['error' => $error['message'], 'file' => $error['file'], 'line' => $error['line']];
                 }
-                header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-                header('Content-Type: application/json');
-                echo json_encode($data);
-                exit;
+                if (php_sapi_name() !== 'cli') {
+                    header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+                    header('Content-Type: application/json');
+                    echo json_encode($data);
+                    exit;
+                }
+                echo 'ERROR: ' . $error['message'] . PHP_EOL;
+                echo 'File: ' . $error['file'] . PHP_EOL;
+                echo 'Line: ' . $error['line'] . PHP_EOL;
+                exit(1);
             }
         });
     }
