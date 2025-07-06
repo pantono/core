@@ -26,11 +26,11 @@ class ConfigHelper
 
     public static function getDateFormat(): string
     {
-        return self::getConfigValue('date_format', 'd/m/Y');
+        return self::getConfigValue('application.date_format', 'd/m/Y');
     }
 
     public static function getDateTimeFormat(): string
     {
-        return self::getConfigValue('date_time_format', 'd/m/Y H:i:s');
+        return self::getConfigValue('application.date_time_format', 'd/m/Y H:i:s');
     }
 }
