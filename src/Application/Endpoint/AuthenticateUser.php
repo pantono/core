@@ -12,16 +12,19 @@ use Pantono\Authentication\Exception\PasswordNeedsRehashException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use League\Fractal\Resource\Item;
 use Pantono\Core\Decorator\GenericArrayDecorator;
+use Pantono\Authentication\Users;
 
 class AuthenticateUser extends AbstractEndpoint
 {
     private UserAuthentication $userAuthentication;
     private Session $session;
+    private Users $users;
 
-    public function __construct(UserAuthentication $userAuthentication, Session $session)
+    public function __construct(UserAuthentication $userAuthentication, Session $session, Users $users)
     {
         $this->userAuthentication = $userAuthentication;
         $this->session = $session;
+        $this->users = $users;
     }
 
     public function processRequest(ParameterBag $parameters): ResourceAbstract|array
@@ -29,7 +32,7 @@ class AuthenticateUser extends AbstractEndpoint
         $emailAddress = $parameters->get('email_address');
         $password = $parameters->get('password');
 
-        $user = $this->userAuthentication->getUserByEmailAddress($emailAddress);
+        $user = $this->users->getUserByEmailAddress($emailAddress);
         if ($user === null) {
             throw new NotFoundHttpException('User does not exist');
         }
@@ -40,7 +43,7 @@ class AuthenticateUser extends AbstractEndpoint
             }
         } catch (PasswordNeedsRehashException $e) {
             $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
-            $this->userAuthentication->saveUser($user);
+            $this->users->saveUser($user);
         }
         $token = $this->userAuthentication->addTokenForUser($user);
         $this->session->set('api_token', $token->getToken());
