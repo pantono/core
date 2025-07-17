@@ -101,6 +101,7 @@ abstract class Application
         $this->registerShutdownFunc();
         $this->loadCache();
         $this->loadConfig();
+        $this->setTimezone();
         $this->initDatabase();
         $this->loadServices();
         $this->container->addService('SecurityContext', new SecurityContext());
@@ -133,6 +134,12 @@ abstract class Application
         $config = new Config($this->container->getEventDispatcher(), $this->container->getService('FilesystemCache'));
         $this->container['config'] = $config;
         $this->container->addService('Config', $config);
+    }
+
+    private function setTimezone(): void
+    {
+        $timezone = $this->container['config']->getConfigForType('config')->getValue('timezone') ?? 'UTC';
+        date_default_timezone_set($timezone);
     }
 
     private function loadServices(): void
