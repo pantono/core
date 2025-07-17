@@ -138,7 +138,7 @@ abstract class Application
 
     private function setTimezone(): void
     {
-        $timezone = $this->container['config']->getConfigForType('config')->getValue('timezone') ?? 'UTC';
+        $timezone = $this->container['config']->getConfigForType('config')->getValue('application.timezone') ?? 'UTC';
         date_default_timezone_set($timezone);
     }
 
