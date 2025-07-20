@@ -238,6 +238,9 @@ abstract class Application
                 $this->container->getService('DatabaseConnectionCollection')->closeConnections();
             }
             $error = error_get_last();
+            if (function_exists('\Sentry\captureLastError') === true) {
+                \Sentry\captureLastError();
+            }
             if ($error && $error['type'] === E_ERROR) {
                 $data = ['error' => 'An application error occurred'];
                 if ($this->container->hasService('Config') && $this->container->getConfig()->getApplicationConfig()->getValue('debug') === true) {

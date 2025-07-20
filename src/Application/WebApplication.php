@@ -70,6 +70,9 @@ class WebApplication extends Application
     private function initShutdownHandler(): void
     {
         register_shutdown_function(function () {
+            if (function_exists('\Sentry\captureLastError') === true) {
+                \Sentry\captureLastError();
+            }
             $error = error_get_last();
             if (isset($error['type']) && $error['type'] === E_ERROR) {
                 $debug = $this->container->getConfig()->getApplicationConfig()->getValue('debug');
