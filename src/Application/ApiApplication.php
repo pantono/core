@@ -51,8 +51,8 @@ class ApiApplication extends Application
                 $data['file'] = $e->getFile();
                 $data['line'] = $e->getLine();
             }
-            if (function_exists('\Sentry\captureLastException') === true) {
-                \Sentry\captureLastException($e);
+            if (function_exists('\Sentry\captureException') === true) {
+                \Sentry\captureException($e);
             }
             $response = new JsonResponse(['data' => $data], 405);
         } catch (ApiException|HttpException|RuntimeException $e) {
@@ -68,8 +68,8 @@ class ApiApplication extends Application
             $statusCode = isset(JsonResponse::$statusTexts[$code]) ? $code : 400;
             $response = new JsonResponse(['data' => $data], $statusCode);
         } catch (\Exception $e) {
-            if (function_exists('\Sentry\captureLastException') === true) {
-                \Sentry\captureLastException($e);
+            if (function_exists('\Sentry\captureException') === true) {
+                \Sentry\captureException($e);
             }
             $data = ['success' => false, 'error' => $e->getMessage()];
             if ($debug) {

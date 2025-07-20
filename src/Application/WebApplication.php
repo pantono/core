@@ -51,8 +51,8 @@ class WebApplication extends Application
         try {
             $response = $kernel->handle($request);
         } catch (MethodNotAllowedHttpException $e) {
-            if (function_exists('\Sentry\captureLastException') === true) {
-                \Sentry\captureLastException($e);
+            if (function_exists('\Sentry\captureException') === true) {
+                \Sentry\captureException($e);
             }
             $response = new Response($this->render('error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), 405);
         } catch (ApiException|HttpException|RuntimeException $e) {
@@ -63,8 +63,8 @@ class WebApplication extends Application
             $statusCode = isset(JsonResponse::$statusTexts[$code]) ? $code : 400;
             $response = new Response($this->render('error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), $statusCode);
         } catch (\Exception $e) {
-            if (function_exists('\Sentry\captureLastException') === true) {
-                \Sentry\captureLastException($e);
+            if (function_exists('\Sentry\captureException') === true) {
+                \Sentry\captureException($e);
             }
             $response = new Response($this->render('error.twig', ['error' => ['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getFile(), 'debug' => $debug]]), 500);
         }
