@@ -33,6 +33,7 @@ use Pantono\Core\CommandLine\Model\CommandConfig;
 use Pantono\Utilities\ApplicationHelper;
 use Pantono\Hydrator\Locator\StaticLocator;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Pantono\Contracts\Locator\LocatorInterface;
 
 abstract class Application
 {
@@ -88,7 +89,7 @@ abstract class Application
         }
         $this->container->addService('EventDispatcher', $dispatcher, [EventDispatcherInterface::class]);
         if (!$this->container->hasService('ServiceLocator')) {
-            $this->container->addService('ServiceLocator', new Locator($this->container, $collection));
+            $this->container->addService('ServiceLocator', new Locator($this->container, $collection), [LocatorInterface::class]);
         }
         StaticLocator::setLocator($this->container->getService('ServiceLocator'));
     }
