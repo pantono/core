@@ -32,8 +32,8 @@ use Pantono\Core\CommandLine\Model\CommandCollection;
 use Pantono\Core\CommandLine\Model\CommandConfig;
 use Pantono\Utilities\ApplicationHelper;
 use Pantono\Hydrator\Locator\StaticLocator;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Pantono\Contracts\Locator\LocatorInterface;
+use Pantono\Cache\Factory\FilesystemCacheFactory;
 
 abstract class Application
 {
@@ -119,20 +119,14 @@ abstract class Application
 
     private function loadCache(): void
     {
-        $path = realpath(ApplicationHelper::getApplicationRoot() . '/cache');
-        if ($path === false) {
-            throw new \RuntimeException('Unable to initialise application with cache path not existing');
-        }
-        if (is_writable($path) === false) {
-            throw new \RuntimeException('Unable to initialise application with cache path not writable');
-        }
-        $this->container->addService('FilesystemCache', new FilesystemAdapter('', 3600, $path));
+        $service = new FilesystemCacheFactory(ApplicationHelper::getApplicationRoot() . '/cache');
+        $this->container->addService('SystemCache', $service);
     }
 
     private function loadConfig(): void
     {
         $this->container->getEventDispatcher()->addSubscriber(new RegisterConfigPath());
-        $config = new Config($this->container->getEventDispatcher(), $this->container->getService('FilesystemCache'));
+        $config = new Config($this->container->getEventDispatcher(), $this->container->getService('SystemCache'));
         $this->container['config'] = $config;
         $this->container->addService('Config', $config);
     }
