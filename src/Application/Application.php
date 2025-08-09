@@ -120,7 +120,7 @@ abstract class Application
     private function loadCache(): void
     {
         $service = new FilesystemCacheFactory(ApplicationHelper::getApplicationRoot() . '/cache');
-        $this->container->addService('SystemCache', $service);
+        $this->container->addService('SystemCache', $service->createInstance());
     }
 
     private function loadConfig(): void
