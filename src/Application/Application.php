@@ -101,9 +101,8 @@ abstract class Application
         $this->container->getEventDispatcher()->dispatch(new PreBootstrapEvent());
         $this->registerShutdownFunc();
         $this->loadCache();
-        $locator = $this->container->getService('ServiceLocator');
         if (!$this->container->hasService('Hydrator')) {
-            $this->container->addService('Hydrator', new Hydrator($this->container, $locator->getClassAutoWire(ApplicationCacheInterface::class)));
+            $this->container->addService('Hydrator', new Hydrator($this->container, $this->container->getService('SystemCache')));;
         }
 
         $this->loadConfig();
