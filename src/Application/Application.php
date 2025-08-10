@@ -34,6 +34,7 @@ use Pantono\Utilities\ApplicationHelper;
 use Pantono\Hydrator\Locator\StaticLocator;
 use Pantono\Contracts\Locator\LocatorInterface;
 use Pantono\Cache\Factory\FilesystemCacheFactory;
+use Pantono\Contracts\Application\Cache\ApplicationCacheInterface;
 
 abstract class Application
 {
@@ -84,12 +85,13 @@ abstract class Application
         if (!$this->container->hasService('ServiceCollection')) {
             $this->container->addService('ServiceCollection', $collection);
         }
+        $locator = new Locator($this->container, $collection);
         if (!$this->container->hasService('Hydrator')) {
-            $this->container->addService('Hydrator', new Hydrator($container));
+            $this->container->addService('Hydrator', new Hydrator($container, $locator->getClassAutoWire(ApplicationCacheInterface::class)));
         }
         $this->container->addService('EventDispatcher', $dispatcher, [EventDispatcherInterface::class]);
         if (!$this->container->hasService('ServiceLocator')) {
-            $this->container->addService('ServiceLocator', new Locator($this->container, $collection), [LocatorInterface::class]);
+            $this->container->addService('ServiceLocator', $locator, [LocatorInterface::class]);
         }
         StaticLocator::setLocator($this->container->getService('ServiceLocator'));
     }
