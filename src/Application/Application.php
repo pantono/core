@@ -78,6 +78,7 @@ abstract class Application
                 define('RELEASE_TIME', $releaseTimestamp);
             }
         }
+
         if ($dispatcher === null) {
             $dispatcher = new EventDispatcher();
         }
@@ -85,11 +86,8 @@ abstract class Application
         if (!$this->container->hasService('ServiceCollection')) {
             $this->container->addService('ServiceCollection', $collection);
         }
-        $locator = new Locator($this->container, $collection);
-        if (!$this->container->hasService('Hydrator')) {
-            $this->container->addService('Hydrator', new Hydrator($container, $locator->getClassAutoWire(ApplicationCacheInterface::class)));
-        }
         $this->container->addService('EventDispatcher', $dispatcher, [EventDispatcherInterface::class]);
+        $locator = new Locator($this->container, $collection);
         if (!$this->container->hasService('ServiceLocator')) {
             $this->container->addService('ServiceLocator', $locator, [LocatorInterface::class]);
         }
@@ -103,6 +101,11 @@ abstract class Application
         $this->container->getEventDispatcher()->dispatch(new PreBootstrapEvent());
         $this->registerShutdownFunc();
         $this->loadCache();
+        $locator = $this->container->getService('ServiceLocator');
+        if (!$this->container->hasService('Hydrator')) {
+            $this->container->addService('Hydrator', new Hydrator($this->container, $locator->getClassAutoWire(ApplicationCacheInterface::class)));
+        }
+
         $this->loadConfig();
         $this->setTimezone();
         $this->initDatabase();
