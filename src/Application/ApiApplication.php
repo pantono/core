@@ -55,6 +55,17 @@ class ApiApplication extends Application
                 \Sentry\captureException($e);
             }
             $response = new JsonResponse(['data' => $data], 405);
+        } catch (\PDOException $e) {
+            $data = ['success' => false, 'error' => 'An Application error occurred. Please try again later.'];
+            if (function_exists('\Sentry\captureException') === true) {
+                \Sentry\captureException($e);
+            }
+            if ($debug) {
+                $data['error'] = $e->getMessage();
+                $data['file'] = $e->getFile();
+                $data['line'] = $e->getLine();
+            }
+            $response = new JsonResponse(['data' => $data], 500);
         } catch (ApiException|HttpException|RuntimeException $e) {
             $data = ['success' => false, 'error' => $e->getMessage()];
             if ($debug) {
