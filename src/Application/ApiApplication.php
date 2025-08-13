@@ -71,8 +71,9 @@ class ApiApplication extends Application
             if (function_exists('\Sentry\captureException') === true) {
                 \Sentry\captureException($e);
             }
-            $data = ['success' => false, 'error' => $e->getMessage()];
+            $data = ['success' => false, 'error' => 'An Application error occurred. Please try again later.'];
             if ($debug) {
+                $data['error'] = $e->getMessage();
                 $data['file'] = $e->getFile();
                 $data['line'] = $e->getLine();
             }
