@@ -49,7 +49,6 @@ abstract class Application
         if (!defined('APPLICATION_PATH')) {
             define('APPLICATION_PATH', $basePath);
         }
-        $this->initDotEnv();
         if (str_ends_with($basePath, '/') === false) {
             $basePath .= '/';
         }
@@ -112,6 +111,7 @@ abstract class Application
     {
         $this->container->getEventDispatcher()->dispatch(new PreBootstrapEvent());
         $this->registerShutdownFunc();
+        $this->initDotEnv();
         $this->loadCache();
         if (!$this->container->hasService('Hydrator')) {
             $this->container->addService('Hydrator', new Hydrator($this->container, $this->container->getService('SystemCache')));;
