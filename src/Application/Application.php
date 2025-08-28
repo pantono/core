@@ -255,7 +255,7 @@ abstract class Application
             }
             if ($error && $error['type'] === E_ERROR) {
                 $data = ['error' => 'An application error occurred'];
-                if ($this->container->hasService('Config') && $this->container->getConfig()->getApplicationConfig()->getValue('debug') === true) {
+                if ($this->container->hasService('Config') && $this->container->getConfig()->getApplicationConfig()->getBooleanValue('debug') === true) {
                     $data = ['error' => $error['message'], 'file' => $error['file'], 'line' => $error['line']];
                 }
                 if (php_sapi_name() !== 'cli') {

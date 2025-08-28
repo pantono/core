@@ -40,7 +40,7 @@ class WebApplication extends Application
          * @var Router $router
          */
         $router = $this->container->getService('Router');
-        $debug = $this->container->getConfig()->getApplicationConfig()->getValue('debug');
+        $debug = $this->container->getConfig()->getApplicationConfig()->getBooleanValue('debug');
         $kernel = new HttpKernel(
             $this->container->getEventDispatcher(),
             $router,
@@ -81,7 +81,7 @@ class WebApplication extends Application
             }
             $error = error_get_last();
             if (isset($error['type']) && $error['type'] === E_ERROR) {
-                $debug = $this->container->getConfig()->getApplicationConfig()->getValue('debug');
+                $debug = $this->container->getConfig()->getApplicationConfig()->getBooleanValue('debug');
                 $options = [];
                 if ($debug) {
                     $options = ['error' => $error['message'], 'file' => $error['file'], 'line' => $error['line']];
