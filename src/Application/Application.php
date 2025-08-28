@@ -101,8 +101,8 @@ abstract class Application
             throw new \RuntimeException('APPLICATION_ENV is not defined');
         }
         $dotEnv = DotEnv::createImmutable(APPLICATION_PATH);
-        $dotEnv->required(['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'TIMEZONE']);
         $dotEnv->safeLoad();
+        $dotEnv->required(['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'TIMEZONE']);
     }
 
     abstract public function run(): int;
