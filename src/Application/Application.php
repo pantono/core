@@ -35,6 +35,7 @@ use Pantono\Hydrator\Locator\StaticLocator;
 use Pantono\Contracts\Locator\LocatorInterface;
 use Pantono\Cache\Factory\FilesystemCacheFactory;
 use Pantono\Contracts\Application\Cache\ApplicationCacheInterface;
+use Dotenv\Dotenv;
 
 abstract class Application
 {
@@ -48,6 +49,7 @@ abstract class Application
         if (!defined('APPLICATION_PATH')) {
             define('APPLICATION_PATH', $basePath);
         }
+        (DotEnv::createImmutable($basePath))->safeLoad();
         if (str_ends_with($basePath, '/') === false) {
             $basePath .= '/';
         }
