@@ -49,7 +49,7 @@ abstract class Application
         if (!defined('APPLICATION_PATH')) {
             define('APPLICATION_PATH', $basePath);
         }
-        (DotEnv::createImmutable($basePath))->safeLoad();
+        $this->initDotEnv();
         if (str_ends_with($basePath, '/') === false) {
             $basePath .= '/';
         }
@@ -94,6 +94,16 @@ abstract class Application
             $this->container->addService('ServiceLocator', $locator, [LocatorInterface::class]);
         }
         StaticLocator::setLocator($this->container->getService('ServiceLocator'));
+    }
+
+    private function initDotEnv(): void
+    {
+        if (defined('APPLICATION_PATH') === false) {
+            throw new \RuntimeException('APPLICATION_ENV is not defined');
+        }
+        $dotEnv = DotEnv::createImmutable(APPLICATION_PATH);
+        $dotEnv->required(['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'TIMEZONE']);
+        $dotEnv->safeLoad();
     }
 
     abstract public function run(): int;
