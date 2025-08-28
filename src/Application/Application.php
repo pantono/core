@@ -103,6 +103,7 @@ abstract class Application
         $dotEnv = DotEnv::createImmutable(APPLICATION_PATH);
         $dotEnv->safeLoad();
         $dotEnv->required(['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'TIMEZONE']);
+        $dotEnv->ifPresent('DEBUG')->isBoolean();
     }
 
     abstract public function run(): int;
