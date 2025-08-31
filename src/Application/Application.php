@@ -34,8 +34,8 @@ use Pantono\Utilities\ApplicationHelper;
 use Pantono\Hydrator\Locator\StaticLocator;
 use Pantono\Contracts\Locator\LocatorInterface;
 use Pantono\Cache\Factory\FilesystemCacheFactory;
-use Pantono\Contracts\Application\Cache\ApplicationCacheInterface;
 use Dotenv\Dotenv;
+use Pantono\Database\Adapter\MssqlDb;
 
 abstract class Application
 {
@@ -173,7 +173,7 @@ abstract class Application
             if ($database['type'] === 'mysql') {
                 $db = new MysqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
             } elseif ($database['type'] === 'mssql') {
-                $db = new MysqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
+                $db = new MssqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
             } else {
                 throw new \RuntimeException('Database type ' . $database['type'] . ' not registered');
             }
