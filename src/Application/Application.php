@@ -169,7 +169,7 @@ abstract class Application
         $config = $this->container->getConfig();
         $collection = new ConnectionCollection();
         $appConfig = $config->getConfigForType('config');
-        foreach ($appConfig->getValue('resources.database', []) as $name => $database) {
+        foreach ($appConfig->getValue('database', []) as $name => $database) {
             if ($database['type'] === 'mysql') {
                 $db = new MysqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
             } elseif ($database['type'] === 'mssql') {
