@@ -11,4 +11,4 @@ GenerateUnitTest:
 ListSecurityGates:
   class: Pantono\Core\CommandLine\Command\ListSecurityGatesCommand
 ListEventsListeners:
-  class: Pantono\Core\CommandLine\Command\ListEventsListenersCommand
+  class: Pantono\Core\CommandLine\Command\ListEventListenersCommand
