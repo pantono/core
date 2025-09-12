@@ -34,7 +34,7 @@ class ListEventListenersCommand extends Command
             $rows[] = [
                 $listener->getName(),
                 $listener->getClass(),
-                json_encode($listener->getSubscribedEvents())
+                json_encode($listener->getSubscribedEvents(), JSON_PRETTY_PRINT)
             ];
         }
         $table->setRows($rows);
