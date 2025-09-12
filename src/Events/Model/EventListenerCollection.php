@@ -26,6 +26,11 @@ class EventListenerCollection
         $this->listeners[] = EventListenerConfig::fromConfig($name, $config);
     }
 
+    public function getListeners(): array
+    {
+        return $this->listeners;
+    }
+
     public function registerSubscribers(): void
     {
         foreach ($this->listeners as $listener) {
