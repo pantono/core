@@ -22,7 +22,7 @@ class ListEventListenersCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('services:list');
+        $this->setName('events:list');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
