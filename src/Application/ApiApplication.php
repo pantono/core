@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Pantono\Core\Router\Router;
 use Pantono\Container\StaticContainer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Pantono\Core\Application\Exception\RequestException;
 
 class ApiApplication extends Application
 {
@@ -66,6 +67,9 @@ class ApiApplication extends Application
                 $data['line'] = $e->getLine();
             }
             $response = new JsonResponse(['data' => $data], 500);
+        } catch (RequestException $e) {
+            $data = ['success' => false, 'error' => $e->getMessage(), 'fields' => $e->getFields()];;
+            $response = new JsonResponse(['data' => $data], 400);
         } catch (ApiException|HttpException|RuntimeException $e) {
             $data = ['success' => false, 'error' => $e->getMessage()];
             if ($debug) {
