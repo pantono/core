@@ -110,7 +110,7 @@ abstract class Application
 
     public function bootstrap(): void
     {
-        $this->container->getEventDispatcher()->dispatch(new PreBootstrapEvent());
+        $this->container->getEventDispatcher()->dispatch(new PreBootstrapEvent($this->container));
         $this->registerShutdownFunc();
         $this->initDotEnv();
         $this->loadCache();
@@ -131,7 +131,7 @@ abstract class Application
         if (php_sapi_name() === 'cli') {
             $this->loadCommands();
         }
-        $this->container->getEventDispatcher()->dispatch(new PostBootstrapEvent());
+        $this->container->getEventDispatcher()->dispatch(new PostBootstrapEvent($this->container));
     }
 
     private function loadCache(): void
