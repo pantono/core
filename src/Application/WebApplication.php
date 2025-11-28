@@ -92,19 +92,4 @@ class WebApplication extends Application
             }
         });
     }
-
-    private function initSession(): void
-    {
-        /**
-         * @var ConnectionCollection $connectionCollection
-         */
-        $connectionCollection = $this->container->getService('DatabaseConnectionCollection');
-        $db = $connectionCollection->getConnectionForParent(MysqlRepository::class);
-        $handler = new PdoSessionHandler($db->getConnection(), ['db_table' => 'sessions', 'lock_mode' => PdoSessionHandler::LOCK_NONE]);
-        $storage = new NativeSessionStorage(['use_strict_mode' => 0, 'gc_maxlifetime' => 86400], $handler);
-        $session = new Session($storage);
-        $session->start();
-        $this->container->addService('Session', $session);
-        StaticContainer::setSession($session);
-    }
 }
