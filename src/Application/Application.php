@@ -247,7 +247,7 @@ abstract class Application
         $this->container->addService('CommandCollection', $collection);
     }
 
-    protected function initSession(): void
+    public function initSession(): void
     {
         /**
          * @var ConnectionCollection $connectionCollection
