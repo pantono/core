@@ -51,6 +51,7 @@ class ApiApplication extends Application
             if ($debug) {
                 $data['file'] = $e->getFile();
                 $data['line'] = $e->getLine();
+                $data['trace'] = $e->getTraceAsString();
             }
             if (function_exists('\Sentry\captureException') === true) {
                 \Sentry\captureException($e);
@@ -65,6 +66,7 @@ class ApiApplication extends Application
                 $data['error'] = $e->getMessage();
                 $data['file'] = $e->getFile();
                 $data['line'] = $e->getLine();
+                $data['trace'] = $e->getTraceAsString();
             }
             $response = new JsonResponse(['data' => $data], 500);
         } catch (RequestException $e) {
@@ -75,6 +77,7 @@ class ApiApplication extends Application
             if ($debug) {
                 $data['file'] = $e->getFile();
                 $data['line'] = $e->getLine();
+                $data['trace'] = $e->getTraceAsString();
             }
             $code = $e->getCode();
             if ($e instanceof HttpException && $e->getStatusCode() > 0) {
@@ -91,6 +94,7 @@ class ApiApplication extends Application
                 $data['error'] = $e->getMessage();
                 $data['file'] = $e->getFile();
                 $data['line'] = $e->getLine();
+                $data['trace'] = $e->getTraceAsString();
             }
             $response = new JsonResponse(['data' => $data], 500);
         }
