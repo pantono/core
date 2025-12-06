@@ -40,6 +40,7 @@ use Pantono\Database\Repository\MysqlRepository;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Pantono\Core\Helper\EndpointConfig;
 
 abstract class Application
 {
@@ -231,6 +232,10 @@ abstract class Application
         $endpointCollection = new EndpointCollection();
         $router = new Router($locator, $endpointCollection);
         foreach ($this->container->getConfig()->getConfigForType('endpoints')->getAllData() as $name => $config) {
+            if ($config instanceof EndpointConfig) {
+                $router->registerEndpoint($config->toEndpointDefinition());
+                continue;
+            }
             $router->registerEndpoint(EndpointDefinition::fromConfigArray($name, $config));
         }
         $this->container->addService('Router', $router);
