@@ -10,7 +10,7 @@ class EndpointConfig
     private string $controller;
     private string $route;
     private string $method = 'GET';
-    private array $securityContexts = [];
+    private array $securityGates = [];
     private array $fields = [];
     private array $dependencies = [];
 
@@ -40,9 +40,9 @@ class EndpointConfig
     }
 
 
-    public function addSecurityContext(string $name): self
+    public function addSecurityGate(string $name): self
     {
-        $this->securityContexts[] = $name;
+        $this->securityGates[] = $name;
         return $this;
     }
 
@@ -84,8 +84,8 @@ class EndpointConfig
         if (!empty($this->dependencies)) {
             $data['dependencies'] = $this->dependencies;
         }
-        if (!empty($this->securityContexts)) {
-            $data['security_contexts'] = $this->securityContexts;
+        if (!empty($this->securityGates)) {
+            $data['security_gates'] = $this->securityGates;
         }
         if (!empty($this->fields)) {
             $data['fields'] = $this->fields;
