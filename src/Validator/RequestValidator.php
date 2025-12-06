@@ -62,6 +62,7 @@ class RequestValidator
                 }
             }
             if ($endpointField->getCast()) {
+                $field->setValue(null);
                 if ($inputValue) {
                     $id = $inputValue;
                     if (is_array($inputValue)) {
