@@ -62,6 +62,11 @@ class EndpointConfig
         return $this;
     }
 
+    public function setFields(array $fields): void
+    {
+        $this->fields = $fields;
+    }
+
     public function toEndpointDefinition(): EndpointDefinition
     {
         return EndpointDefinition::fromConfigArray($this->name, $this->toArray());
