@@ -52,13 +52,14 @@ class EndpointConfig
         return $this;
     }
 
-    public function addField(string $type, string $name, ?string $label = null, bool $required = false): void
+    public function addField(string $type, string $name, ?string $label = null, bool $required = false): self
     {
         $this->fields[$name] = [
             'type' => $type,
             'required' => $required,
             'label' => $label ?: $name
         ];
+        return $this;
     }
 
     public function toEndpointDefinition(): EndpointDefinition
