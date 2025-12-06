@@ -63,11 +63,22 @@ class RequestValidator
             }
             if ($endpointField->getCast()) {
                 if ($inputValue) {
-                    $value = $this->processCast($endpointField->getCast(), $field->getInput());
-                    if (!$value) {
-                        $field->setError($endpointField->getLabel() . ' is invalid or cannot be found');
-                    } else {
-                        $field->setValue($value);
+                    $id = $inputValue;
+                    if (is_array($inputValue)) {
+                        if (isset($inputValue['data'])) {
+                            $id = $inputValue['data']['id'] ?? null;
+                        }
+                        if (isset($inputValue['id'])) {
+                            $id = $inputValue['id'];
+                        }
+                    }
+                    if ($id) {
+                        $value = $this->processCast($endpointField->getCast(), $id);
+                        if (!$value) {
+                            $field->setError($endpointField->getLabel() . ' is invalid or cannot be found');
+                        } else {
+                            $field->setValue($value);
+                        }
                     }
                 }
             } else {
