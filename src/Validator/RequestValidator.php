@@ -12,6 +12,7 @@ use Pantono\Container\Traits\ContainerAware;
 use Pantono\Core\Validator\Validator\ValidatorAbstract;
 use Pantono\Core\Validator\Exception\ValidationException;
 use ReflectionClass;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class RequestValidator
 {
@@ -33,9 +34,9 @@ class RequestValidator
         $validationResult = new ValidationResult();
         $method = strtolower($endpoint->getMethod());
         if ($method === 'get' || $method === 'delete' || $method === 'options' || $method === 'head' || $method === 'trace') {
-            $params = $request->query;
+            $params = new ParameterBag($request->query->all());
         } else {
-            $params = $request->request;
+            $params = new ParameterBag($request->request->all());
         }
         foreach ($endpoint->getFields() as $endpointField) {
             $inputValue = $params->get($endpointField->getName());
@@ -84,7 +85,7 @@ class RequestValidator
                 $validationResult->addField($validationField);
             }
         }
-        
+
         return $validationResult;
     }
 
