@@ -73,7 +73,7 @@ class RequestValidator
                             $id = $inputValue['id'];
                         }
                     }
-                    if ($id) {
+                    if (is_scalar($id)) {
                         $value = $this->processCast($endpointField->getCast(), $id);
                         if (!$value) {
                             $field->setError($endpointField->getLabel() . ' is invalid or cannot be found');
