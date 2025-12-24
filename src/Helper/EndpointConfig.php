@@ -62,6 +62,40 @@ class EndpointConfig
         return $this;
     }
 
+    public function addStringField(string $name, ?string $label = null, bool $required = false): self
+    {
+        return $this->addField('string', $name, $label, $required);
+    }
+
+    public function addBoolField(string $name, ?string $label = null, bool $required = false): self
+    {
+        return $this->addField('boolean', $name, $label, $required);
+    }
+
+    public function addFloatField(string $name, ?string $label = null, bool $required = false): self
+    {
+        return $this->addField('float', $name, $label, $required);
+    }
+
+    public function addIntField(string $name, ?string $label = null, bool $required = false): self
+    {
+        return $this->addField('int', $name, $label, $required);
+    }
+
+    public function addCastField(string $name, string $cast, ?string $label = null, bool $required = false): self
+    {
+        if (!class_exists($cast)) {
+            throw new \RuntimeException(sprintf('Cast class %s does not exist', $cast));
+        }
+        $this->fields[$name] = [
+            'type' => 'integer',
+            'cast' => $cast,
+            'required' => $required,
+            'label' => $label ?: $name
+        ];
+        return $this;
+    }
+
     public function setFields(array $fields): self
     {
         $this->fields = $fields;
