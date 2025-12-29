@@ -108,7 +108,11 @@ abstract class AbstractEndpoint
 
     protected function paginateFilterResults(TransformerAbstract $transformer, PageableInterface $filter, array $results): Collection
     {
-        return $this->paginateResults($transformer, $results, $filter->getTotalResults(), $filter->getPerPage(), $filter->getPage());
+        $result = $this->paginateResults($transformer, $results, $filter->getTotalResults(), $filter->getPerPage(), $filter->getPage());
+        if (method_exists($filter, 'toArray')) {
+            $result->setMetaValue('filter', $filter->toArray());
+        }
+        return $result;
     }
 
     public function lookupRecord(string $className, mixed $id): mixed
