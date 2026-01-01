@@ -8,6 +8,8 @@ CreateCommand:
   class: Pantono\Core\CommandLine\Command\CreateCommandLineCommand
 GenerateUnitTest:
   class: Pantono\Core\CommandLine\Command\GenerateUnitTestCommand
+ClearSystemCache:
+  class: Pantono\Core\CommandLine\Command\ClearSystemCacheCommand
 ListSecurityGates:
   class: Pantono\Core\CommandLine\Command\ListSecurityGatesCommand
 ListEventsListeners:
