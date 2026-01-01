@@ -30,8 +30,14 @@ class ClearSystemCacheCommand extends Command
         $this->cache->clear();
         $proxyDir = ApplicationHelper::getApplicationRoot() . '/cache/proxies';
         if (file_exists($proxyDir) && is_dir($proxyDir)) {
-            rmdir($proxyDir);
-            mkdir($proxyDir, 0777, true);
+            $files = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($proxyDir, \RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::CHILD_FIRST
+            );
+            foreach ($files as $fileInfo) {
+                $todo = ($fileInfo->isDir() ? 'rmdir' : 'unlink');
+                $todo($fileInfo->getRealPath());
+            }
         }
         $output->writeln('Done');
         return 0;
