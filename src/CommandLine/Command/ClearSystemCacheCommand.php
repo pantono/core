@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Pantono\Contracts\Application\Cache\ApplicationCacheInterface;
+use Pantono\Utilities\ApplicationHelper;
 
 class ClearSystemCacheCommand extends Command
 {
@@ -27,6 +28,11 @@ class ClearSystemCacheCommand extends Command
     {
         $output->write('Clearing cache....');
         $this->cache->clear();
+        $proxyDir = ApplicationHelper::getApplicationRoot() . '/cache/proxies';
+        if (file_exists($proxyDir) && is_dir($proxyDir)) {
+            rmdir($proxyDir);
+            mkdir($proxyDir, 0777, true);
+        }
         $output->writeln('Done');
         return 0;
     }
