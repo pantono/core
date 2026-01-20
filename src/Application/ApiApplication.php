@@ -11,14 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Pantono\Core\Application\Exception\ApiException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
-use Pantono\Database\Connection\ConnectionCollection;
-use Pantono\Database\Repository\MysqlRepository;
-use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Pantono\Core\Router\Router;
-use Pantono\Container\StaticContainer;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Pantono\Core\Application\Exception\RequestException;
 
 class ApiApplication extends Application

@@ -36,7 +36,6 @@ use Pantono\Contracts\Locator\LocatorInterface;
 use Pantono\Cache\Factory\FilesystemCacheFactory;
 use Dotenv\Dotenv;
 use Pantono\Database\Adapter\MssqlDb;
-use Pantono\Database\Repository\MysqlRepository;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -258,7 +257,7 @@ abstract class Application
          * @var ConnectionCollection $connectionCollection
          */
         $connectionCollection = $this->container->getService('DatabaseConnectionCollection');
-        $db = $connectionCollection->getConnectionForParent(MysqlRepository::class);
+        $db = $connectionCollection->getDefaultConnection();
         $sessionExpiryTime = $this->container->getConfig()->getApplicationConfig()->getValue('session_time', 86400);
         $handler = new PdoSessionHandler($db->getConnection(), ['db_table' => 'sessions', 'lock_mode' => PdoSessionHandler::LOCK_NONE]);
         $storage = new NativeSessionStorage(['use_strict_mode' => 0, 'gc_maxlifetime' => $sessionExpiryTime, 'cookie_lifetime' => $sessionExpiryTime], $handler);
