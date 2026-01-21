@@ -40,6 +40,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Pantono\Core\Helper\EndpointConfig;
+use Pantono\Database\Adapter\PgsqlDb;
 
 abstract class Application
 {
@@ -178,6 +179,8 @@ abstract class Application
                 $db = new MysqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
             } elseif ($database['type'] === 'mssql') {
                 $db = new MssqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
+            } elseif ($database['type'] === 'pgsql') {
+                $db = new PgsqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
             } else {
                 throw new \RuntimeException('Database type ' . $database['type'] . ' not registered');
             }
