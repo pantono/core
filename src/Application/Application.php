@@ -185,7 +185,7 @@ abstract class Application
                 throw new \RuntimeException('Database type ' . $database['type'] . ' not registered');
             }
 
-            $collection->addConnection($name, $database['type'], $db);
+            $collection->addConnection($name, $database['type'], $db, $database['default'] ?? false);
         }
         $this->container->addService('DatabaseConnectionCollection', $collection);
     }
