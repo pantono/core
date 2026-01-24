@@ -85,10 +85,10 @@ class Router implements ControllerResolverInterface, RouterInterface
             if ($responseData instanceof Response) {
                 $response = $responseData;
             } elseif ($responseData instanceof ResourceAbstract) {
-                $requestedIncludes = explode(',', $request->get('include', ''));
+                $requestedIncludes = explode(',', $request->query->get('include', ''));
                 $this->getContainer()->getService('Fractal')->parseIncludes($requestedIncludes);
 
-                $requestExcludes = explode(',', $request->get('exclude', ''));
+                $requestExcludes = explode(',', $request->query->get('exclude', ''));
                 $this->getContainer()->getService('Fractal')->parseExcludes($requestExcludes);
                 $response = new JsonResponse($this->getContainer()->getService('Fractal')->createData($responseData)->toArray());
             } elseif (is_array($responseData)) {

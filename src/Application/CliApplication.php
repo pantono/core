@@ -13,9 +13,9 @@ class CliApplication extends Application
                 continue;
             }
             if (empty($commandConfig->getServices())) {
-                $application->add($this->container->getLocator()->getClassAutoWire($commandConfig->getClass()));
+                $application->addCommand($this->container->getLocator()->getClassAutoWire($commandConfig->getClass()));
             } else {
-                $application->add($this->container->getLocator()->loadClass($commandConfig->getClass(), $commandConfig->getServices()));
+                $application->addCommand($this->container->getLocator()->loadClass($commandConfig->getClass(), $commandConfig->getServices()));
             }
         }
         return $application->run();
