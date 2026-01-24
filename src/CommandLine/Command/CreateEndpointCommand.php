@@ -32,7 +32,7 @@ class CreateEndpointCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('endpoint:generate')
             ->addArgument('name', InputArgument::REQUIRED, 'Name (key) of the endpoint');
