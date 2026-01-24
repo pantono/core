@@ -120,7 +120,7 @@ abstract class Application
         $this->initDotEnv();
         $this->loadCache();
         if (!$this->container->hasService('Hydrator')) {
-            $this->container->addService('Hydrator', new Hydrator($this->container, $this->container->getService('SystemCache')));;
+            $this->container->addService('Hydrator', new Hydrator($this->container, $this->container->get('EventDispatcher'), $this->container->getService('SystemCache')));;
         }
 
         $this->loadConfig();
