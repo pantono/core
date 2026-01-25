@@ -41,6 +41,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Pantono\Core\Helper\EndpointConfig;
 use Pantono\Database\Adapter\PgsqlDb;
+use Pantono\Cache\Factory\EphemeralCacheFactory;
 
 abstract class Application
 {
@@ -143,6 +144,8 @@ abstract class Application
     {
         $service = new FilesystemCacheFactory(ApplicationHelper::getApplicationRoot() . '/cache');
         $this->container->addService('SystemCache', $service->createInstance());
+        $ephemeralService = new EphemeralCacheFactory();
+        $this->container->addService('EphemeralCache', $ephemeralService->createInstance());
     }
 
     private function loadConfig(): void
