@@ -39,10 +39,10 @@ class RequestValidator
             $params = new ParameterBag($request->request->all());
         }
         foreach ($endpoint->getFields() as $endpointField) {
-            $inputValue = $params->get($endpointField->getName());
             $field = new ValidationResultField();
             $field->setName($endpointField->getName());
-            if ($inputValue) {
+            if ($params->has($endpointField->getName())) {
+                $inputValue = $params->get($endpointField->getName());
                 $field->setInput($inputValue);
             }
             if ($endpointField->isRequired() === true) {
