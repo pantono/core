@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-use Phinx\Migration\AbstractMigration;
 
-final class SessionsMigration extends AbstractMigration
+use Pantono\Database\Migration\Base\BasePantonoMigration;
+
+final class SessionsMigration extends BasePantonoMigration
 {
     public function up(): void
     {
+        $tableName = $this->addTablePrefix('sessions');
         if ($this->getAdapter()->getAdapterType() == 'mysql') {
-            $this->query('CREATE TABLE `sessions` (
+            $this->query('CREATE TABLE `' . $tableName . '` (
     `sess_id` VARBINARY(128) NOT NULL PRIMARY KEY,
     `sess_data` BLOB NOT NULL,
     `sess_lifetime` INTEGER UNSIGNED NOT NULL,
@@ -17,14 +19,14 @@ final class SessionsMigration extends AbstractMigration
     INDEX `sessions_sess_lifetime_idx` (`sess_lifetime`)
 ) COLLATE utf8mb4_bin, ENGINE = InnoDB;');
         } elseif ($this->getAdapter()->getAdapterType() === 'pgsql') {
-            $this->query("CREATE TABLE sessions (
+            $this->query("CREATE TABLE '.$tableName.' (
     sess_id VARCHAR(128) NOT NULL PRIMARY KEY,
     sess_data BYTEA NOT NULL,
     sess_time INTEGER NOT NULL,
     sess_lifetime INTEGER NOT NULL
 );");
         } elseif ($this->getAdapter()->getAdapterType() === 'mssql') {
-            $this->query("CREATE TABLE [dbo].[sessions](
+            $this->query("CREATE TABLE [dbo].['.$tableName.'](
     [sess_id] [nvarchar](255) NOT NULL,
     [sess_data] [ntext] NOT NULL,
     [sess_time] [int] NOT NULL,
@@ -46,6 +48,6 @@ final class SessionsMigration extends AbstractMigration
 
     public function down(): void
     {
-        $this->table('sessions')->drop()->update();
+        $this->table($this->addTablePrefix('sessions'))->drop()->update();
     }
 }
