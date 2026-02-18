@@ -95,7 +95,8 @@ class CreateEndpointCommand extends Command
             if ($config->getCast()) {
                 if (class_exists($config->getCast())) {
                     $namespace->addUse($config->getCast());
-                    $bodyLines[] = '/* @var ' . $config->getCast() . ' $' . $configFieldName . ' */';
+                    $parts = explode('\\', $config->getCast());
+                    $bodyLines[] = '/* @var ' . array_pop($parts) . ' $' . $configFieldName . ' */';
                 }
             }
             $bodyLines[] = '$' . $configFieldName . ' = $parameters->get(\'' . $config->getName() . '\');';
