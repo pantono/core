@@ -91,13 +91,14 @@ class CreateEndpointCommand extends Command
         $processMethod->addParameter('parameters')->setType(ParameterBag::class);
         $bodyLines = [];
         foreach ($endpoint->getFields() as $config) {
+            $configFieldName = lcfirst(StringUtilities::camelCase($config->getName()));
             if ($config->getCast()) {
                 if (class_exists($config->getCast())) {
                     $namespace->addUse($config->getCast());
-                    $bodyLines[] = '/* @var ' . $config->getCast() . ' $' . $config->getName() . ' */';
+                    $bodyLines[] = '/* @var ' . $config->getCast() . ' $' . $configFieldName . ' */';
                 }
             }
-            $bodyLines[] = '$' . $config->getName() . ' = $parameters->get(\'' . $config->getName() . '\');';
+            $bodyLines[] = '$' . $configFieldName . ' = $parameters->get(\'' . $config->getName() . '\');';
         }
         $bodyLines = array_merge($bodyLines, $currentMethodParts);
         $processMethod->setBody(implode(PHP_EOL, $bodyLines));
