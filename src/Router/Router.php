@@ -25,6 +25,7 @@ class Router implements ControllerResolverInterface, RouterInterface
 
     private Locator $locator;
     private EndpointCollection $collection;
+    private ?Request $request = null;
 
     public function __construct(Locator $locator, EndpointCollection $endpointCollection)
     {
@@ -51,6 +52,7 @@ class Router implements ControllerResolverInterface, RouterInterface
             $_GET[$field] = $value;
         }
         $request = Request::createFromGlobals();
+        $this->request = $request;
         return function () use ($endpoint, $request) {
             $instance = $this->createControllerInstance($endpoint);
             $instance->setRequest($request);
@@ -94,6 +96,7 @@ class Router implements ControllerResolverInterface, RouterInterface
             } elseif (is_array($responseData)) {
                 $response = new JsonResponse($responseData);
             }
+            $this->request = null;
             return $response;
         };
     }
@@ -115,5 +118,10 @@ class Router implements ControllerResolverInterface, RouterInterface
             $services[] = $this->locator->loadDependency($service);
         }
         return $class->newInstanceArgs($services);
+    }
+
+    public function getCurrentRequest(): ?Request
+    {
+        return $this->request;
     }
 }
