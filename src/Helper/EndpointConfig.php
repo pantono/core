@@ -82,6 +82,32 @@ class EndpointConfig
         return $this->addField('int', $name, $label, $required);
     }
 
+    public function addDateField(string $name, ?string $label = null, bool $required = false): self
+    {
+        $this->fields[$name] = [
+            'type' => 'date',
+            'required' => $required,
+            'label' => $label ?: $name,
+            'validators' => [
+                'ValidDate' => ['date_format' => 'Y-m-d']
+            ]
+        ];
+        return $this;
+    }
+
+    public function addDateTimeField(string $name, ?string $label = null, bool $required = false): self
+    {
+        $this->fields[$name] = [
+            'type' => 'datetime',
+            'required' => $required,
+            'label' => $label ?: $name,
+            'validators' => [
+                'ValidDate' => ['date_format' => 'Y-m-d']
+            ]
+        ];
+        return $this;
+    }
+
     public function addCastField(string $name, string $cast, ?string $label = null, bool $required = false): self
     {
         if (!class_exists($cast)) {
