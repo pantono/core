@@ -88,6 +88,7 @@ class EndpointConfig
             'type' => 'date',
             'required' => $required,
             'label' => $label ?: $name,
+            'cast' => \DateTimeImmutable::class,
             'validators' => [
                 'ValidDate' => ['date_format' => 'Y-m-d']
             ]
@@ -101,6 +102,7 @@ class EndpointConfig
             'type' => 'datetime',
             'required' => $required,
             'label' => $label ?: $name,
+            'cast' => \DateTimeImmutable::class,
             'validators' => [
                 'ValidDate' => ['date_format' => 'Y-m-d']
             ]
