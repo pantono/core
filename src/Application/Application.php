@@ -179,11 +179,11 @@ abstract class Application
         $appConfig = $config->getConfigForType('config');
         foreach ($appConfig->getValue('database', []) as $name => $database) {
             if ($database['type'] === 'mysql') {
-                $db = new MysqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
+                $db = new MysqlDb($database['dsn']);
             } elseif ($database['type'] === 'mssql') {
-                $db = new MssqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
+                $db = new MssqlDb($database['dsn']);
             } elseif ($database['type'] === 'pgsql') {
-                $db = new PgsqlDb($database['dsn'], $database['user'], $database['password'], $database['options'] ?? null);
+                $db = new PgsqlDb($database['dsn']);
             } else {
                 throw new \RuntimeException('Database type ' . $database['type'] . ' not registered');
             }
