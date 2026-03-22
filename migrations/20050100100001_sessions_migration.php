@@ -19,12 +19,12 @@ final class SessionsMigration extends BasePantonoMigration
     INDEX `sessions_sess_lifetime_idx` (`sess_lifetime`)
 ) COLLATE utf8mb4_bin, ENGINE = InnoDB;');
         } elseif ($this->getAdapter()->getAdapterType() === 'pgsql') {
-            $this->query("CREATE TABLE '.$tableName.' (
+            $this->query('CREATE TABLE "' . $tableName . '" (
     sess_id VARCHAR(128) NOT NULL PRIMARY KEY,
     sess_data BYTEA NOT NULL,
     sess_time INTEGER NOT NULL,
     sess_lifetime INTEGER NOT NULL
-);");
+);');
         } elseif ($this->getAdapter()->getAdapterType() === 'mssql') {
             $this->query("CREATE TABLE [dbo].['.$tableName.'](
     [sess_id] [nvarchar](255) NOT NULL,
