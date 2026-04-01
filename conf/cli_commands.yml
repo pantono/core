@@ -14,3 +14,5 @@ ListSecurityGates:
   class: Pantono\Core\CommandLine\Command\ListSecurityGatesCommand
 ListEventsListeners:
   class: Pantono\Core\CommandLine\Command\ListEventListenersCommand
+GenerateDecorator:
+  class: Pantono\Core\CommandLine\Command\GenerateDecoratorCommand

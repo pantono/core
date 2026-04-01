@@ -1,0 +1,17 @@
+namespace App\Decorator;
+
+use League\Fractal\TransformerAbstract;
+use Pantono\Core\Generator\Tests\Model\TestModel;
+
+class TestModelDecorator extends TransformerAbstract
+{
+    public function transform(TestModel $testModel): array
+    {
+        return [
+            'id' => $testModel->getId(),
+            'name' => $testModel->getName(),
+            'date' => $testModel->getDate()->format('Y-m-d H:i:s'),
+            'float' => $testModel->getFloat(),
+        ];
+    }
+}
