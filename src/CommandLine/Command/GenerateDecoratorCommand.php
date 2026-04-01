@@ -11,6 +11,11 @@ use Pantono\Utilities\ApplicationHelper;
 
 class GenerateDecoratorCommand extends Command
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     protected function configure(): void
     {
         $this->setName('decorator:generate')

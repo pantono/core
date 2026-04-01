@@ -36,7 +36,7 @@ class DecoratorGenerator
     public function write(string $directoryName, string $targetNamespace): bool
     {
         $path = sprintf('%s/%s.php', $directoryName, $this->getDecoratorName());
-        file_put_contents($path, '<?php' . $this->generate($targetNamespace));
+        file_put_contents($path, '<?php' . PHP_EOL . $this->generate($targetNamespace));
 
         return file_exists($path);
     }
