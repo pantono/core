@@ -48,6 +48,7 @@ abstract class Application
     protected string $basePath;
     protected Container $container;
     protected string $env;
+    private bool $bootstrapCompleted = false;
 
     public function __construct(string $env, string $basePath, ?EventDispatcher $dispatcher = null, ?Container $container = null)
     {
@@ -116,28 +117,31 @@ abstract class Application
 
     public function bootstrap(): void
     {
-        $this->container->getEventDispatcher()->dispatch(new PreBootstrapEvent($this->container));
-        $this->registerShutdownFunc();
-        $this->initDotEnv();
-        $this->loadCache();
-        if (!$this->container->hasService('Hydrator')) {
-            $this->container->addService('Hydrator', new Hydrator($this->container, $this->container->getEventDispatcher(), $this->container->getService('EphemeralCache')));;
-        }
+        if ($this->bootstrapCompleted === false) {
+            $this->container->getEventDispatcher()->dispatch(new PreBootstrapEvent($this->container));
+            $this->registerShutdownFunc();
+            $this->initDotEnv();
+            $this->loadCache();
+            if (!$this->container->hasService('Hydrator')) {
+                $this->container->addService('Hydrator', new Hydrator($this->container, $this->container->getEventDispatcher(), $this->container->getService('EphemeralCache')));;
+            }
 
-        $this->loadConfig();
-        $this->setTimezone();
-        $this->initDatabase();
-        $this->loadServices();
-        $this->container->addService('SecurityContext', new SecurityContext());
-        $this->loadEventListeners();
-        $this->loadValidators();
-        $this->loadSecurityGates();
-        $this->loadEndpoints();
-        $this->loadFractal();
-        if (php_sapi_name() === 'cli') {
-            $this->loadCommands();
+            $this->loadConfig();
+            $this->setTimezone();
+            $this->initDatabase();
+            $this->loadServices();
+            $this->container->addService('SecurityContext', new SecurityContext());
+            $this->loadEventListeners();
+            $this->loadValidators();
+            $this->loadSecurityGates();
+            $this->loadEndpoints();
+            $this->loadFractal();
+            if (php_sapi_name() === 'cli') {
+                $this->loadCommands();
+            }
+            $this->container->getEventDispatcher()->dispatch(new PostBootstrapEvent($this->container));
+            $this->bootstrapCompleted = true;
         }
-        $this->container->getEventDispatcher()->dispatch(new PostBootstrapEvent($this->container));
     }
 
     private function loadCache(): void
