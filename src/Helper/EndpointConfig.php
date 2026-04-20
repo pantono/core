@@ -139,7 +139,8 @@ class EndpointConfig
     {
         $data = [
             'method' => $this->method,
-            'route' => $this->route
+            'route' => $this->route,
+            'name' => $this->name
         ];
         if ($this->controller) {
             $data['controller'] = $this->controller;
@@ -155,5 +156,17 @@ class EndpointConfig
         }
 
         return $data;
+    }
+
+    public static function __set_state(array $data): object
+    {
+        $class = new EndpointConfig($data['name']);
+        $class->controller = $data['controller'];
+        $class->method = $data['method'];
+        $class->route = $data['route'];
+        $class->securityGates = $data['securityGates'];
+        $class->fields = $data['fields'];
+        $class->dependencies = $data['dependencies'];
+        return $class;
     }
 }
