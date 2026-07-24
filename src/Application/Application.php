@@ -94,6 +94,7 @@ abstract class Application
         if (!$this->container->hasService('ServiceCollection')) {
             $this->container->addService('ServiceCollection', $collection);
         }
+        $this->container->addService('Container', $container);
         $this->container->addService('EventDispatcher', $dispatcher, [EventDispatcherInterface::class]);
         $locator = new Locator($this->container, $collection);
         if (!$this->container->hasService('ServiceLocator')) {
