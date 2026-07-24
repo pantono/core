@@ -42,6 +42,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Pantono\Core\Helper\EndpointConfig;
 use Pantono\Database\Adapter\PgsqlDb;
 use Pantono\Cache\Factory\EphemeralCacheFactory;
+use Pantono\Contracts\Container\ContainerInterface;
 
 abstract class Application
 {
@@ -94,7 +95,7 @@ abstract class Application
         if (!$this->container->hasService('ServiceCollection')) {
             $this->container->addService('ServiceCollection', $collection);
         }
-        $this->container->addService('Container', $container);
+        $this->container->addService('Container', $container, [ContainerInterface::class]);
         $this->container->addService('EventDispatcher', $dispatcher, [EventDispatcherInterface::class]);
         $locator = new Locator($this->container, $collection);
         if (!$this->container->hasService('ServiceLocator')) {
