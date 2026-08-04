@@ -37,6 +37,7 @@ use Pantono\Cache\Factory\FilesystemCacheFactory;
 use Dotenv\Dotenv;
 use Pantono\Database\Adapter\MssqlDb;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Pantono\Core\Helper\EndpointConfig;
@@ -140,6 +141,7 @@ abstract class Application
             $this->loadEndpoints();
             $this->loadFractal();
             if (php_sapi_name() === 'cli') {
+                $this->initCliSession();
                 $this->loadCommands();
             }
             $this->container->getEventDispatcher()->dispatch(new PostBootstrapEvent($this->container));
@@ -279,6 +281,18 @@ abstract class Application
         $handler = new PdoSessionHandler($connection, ['db_table' => ApplicationHelper::appendTablePrefix('sessions'), 'lock_mode' => PdoSessionHandler::LOCK_NONE]);
         $storage = new NativeSessionStorage(['use_strict_mode' => 0, 'gc_maxlifetime' => $sessionExpiryTime, 'cookie_lifetime' => $sessionExpiryTime], $handler);
         $session = new Session($storage);
+        $session->start();
+        $this->container->addService('Session', $session);
+        StaticContainer::setSession($session);
+    }
+
+    protected function initCliSession(): void
+    {
+        if ($this->container->hasService('Session')) {
+            return;
+        }
+
+        $session = new Session(new MockArraySessionStorage());
         $session->start();
         $this->container->addService('Session', $session);
         StaticContainer::setSession($session);
