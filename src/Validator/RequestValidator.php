@@ -46,10 +46,8 @@ class RequestValidator
                 $inputValue = $params->get($endpointField->getName());
                 $field->setInput($inputValue);
             }
-            if ($endpointField->isRequired() === true) {
-                if (!$inputValue) {
-                    $field->setError($endpointField->getLabel() . ' is required');
-                }
+            if ($endpointField->isRequired() === true && ($params->has($endpointField->getName()) === false || $inputValue === '')) {
+                $field->setError($endpointField->getLabel() . ' is required');
             }
             foreach ($endpointField->getValidators() as $validatorName => $options) {
                 try {
