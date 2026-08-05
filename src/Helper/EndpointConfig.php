@@ -62,10 +62,11 @@ class EndpointConfig
         return $this;
     }
 
-    public function makePageable(): void
+    public function makePageable(): self
     {
         $this->addIntField('page', 'Page', true);
         $this->addIntField('per_page', 'Per Page', false);
+        return $this;
     }
 
     public function addStringField(string $name, ?string $label = null, bool $required = false): self
