@@ -11,3 +11,9 @@ parameters:
     - message: '#^Method (.*)::(.*) return type has no value type specified in iterable type array.$#'
     - message: '#^Method (.*)::(.*) has parameter (.*) with no value type specified in iterable type array.$#'
     - message: '#^Property (.*)::(.*) type has no value type specified in iterable type array.$#'
+    -
+      identifier: trait.unused
+      path: src/Application/Traits/ArrayableTrait.php
+    -
+      identifier: trait.unused
+      path: src/Application/Traits/DiffableTrait.php
