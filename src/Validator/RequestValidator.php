@@ -60,6 +60,21 @@ class RequestValidator
                     $field->setError($e->getMessage());
                 }
             }
+            if ($endpointField->getHydrate() !== null) {
+                if (!is_array($inputValue)) {
+                    $field->setError('Input data must be an array');
+                    continue;
+                }
+                if (!class_exists($endpointField->getHydrate())) {
+                    $field->setError('Hydrate class does not exist');
+                    continue;
+                }
+                if (count($inputValue) === 1 && isset($inputValue['data'])) {
+                    $inputValue = $inputValue['data'];
+                }
+                $result = $this->getContainer()->getHydrator()->hydrate($endpointField->getHydrate(), $inputValue);
+                $field->setValue($result);
+            }
             if ($endpointField->getCast()) {
                 $field->setValue(null);
                 if ($inputValue) {

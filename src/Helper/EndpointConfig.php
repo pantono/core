@@ -131,6 +131,20 @@ class EndpointConfig
         return $this;
     }
 
+    public function addHydrateField(string $name, string $hydrateClass, ?string $label = null, bool $required = false): self
+    {
+        if (!class_exists($hydrateClass)) {
+            throw new \RuntimeException(sprintf('Cast class %s does not exist', $hydrateClass));
+        }
+        $this->fields[$name] = [
+            'type' => 'hydrate',
+            'hydrate' => $hydrateClass,
+            'required' => $required,
+            'label' => $label ?: $name
+        ];
+        return $this;
+    }
+
     public function setFields(array $fields): self
     {
         $this->fields = $fields;

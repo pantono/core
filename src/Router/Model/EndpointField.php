@@ -10,8 +10,9 @@ class EndpointField
     private ?string $label;
     private ?string $cast;
     private bool $required;
+    private ?string $hydrate;
 
-    public function __construct(string $name, string $type, array $validators = [], ?string $label = null, ?string $cast = null, bool $required = false)
+    public function __construct(string $name, string $type, array $validators = [], ?string $label = null, ?string $cast = null, bool $required = false, ?string $hydrate = null)
     {
         $this->name = $name;
         $this->type = $type;
@@ -19,11 +20,12 @@ class EndpointField
         $this->label = $label;
         $this->cast = $cast;
         $this->required = $required;
+        $this->hydrate = $hydrate;
     }
 
     public static function fromArray(string $name, array $field): self
     {
-        return new self($name, $field['type'] ?? null, $field['validators'] ?? [], $field['label'] ?? null, $field['cast'] ?? null, $field['required'] ?? false);
+        return new self($name, $field['type'] ?? null, $field['validators'] ?? [], $field['label'] ?? null, $field['cast'] ?? null, $field['required'] ?? false, $field['hydrate'] ?? null);
     }
 
     public function getName(): string
@@ -54,5 +56,10 @@ class EndpointField
     public function isRequired(): bool
     {
         return $this->required;
+    }
+
+    public function getHydrate(): ?string
+    {
+        return $this->hydrate;
     }
 }
