@@ -74,6 +74,8 @@ class RequestValidator
                 }
                 $result = $this->getContainer()->getHydrator()->hydrate($endpointField->getHydrate(), $inputValue);
                 $field->setValue($result);
+                $validationResult->addField($field);
+                continue;
             }
             if ($endpointField->getCast()) {
                 $field->setValue(null);
