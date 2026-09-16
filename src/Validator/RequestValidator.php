@@ -48,6 +48,8 @@ class RequestValidator
             }
             if ($endpointField->isRequired() === true && ($params->has($endpointField->getName()) === false || $inputValue === '')) {
                 $field->setError($endpointField->getLabel() . ' is required');
+                $validationResult->addField($field);
+                continue;
             }
             foreach ($endpointField->getValidators() as $validatorName => $options) {
                 try {
@@ -101,7 +103,9 @@ class RequestValidator
             } else {
                 $field->setValue($field->getInput());
             }
-            $validationResult->addField($field);
+            if ($inputValue !== null) {
+                $validationResult->addField($field);
+            }
         }
 
         foreach ($params->all() as $field => $value) {
