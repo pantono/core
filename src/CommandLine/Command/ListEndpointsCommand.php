@@ -36,7 +36,7 @@ class ListEndpointsCommand extends Command
                 $endpoint->getMethod(),
                 $endpoint->getRoute(),
                 $endpoint->getController() . (!$exists ? ' ***' : ''),
-                $this->getSecurityGateList($endpoint)
+                implode(',', $this->getSecurityGateList($endpoint))
             ];
         }
         $table->setRows($rows);
