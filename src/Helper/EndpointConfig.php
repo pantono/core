@@ -40,9 +40,9 @@ class EndpointConfig
     }
 
 
-    public function addSecurityGate(string $name): self
+    public function addSecurityGate(string $name, array $fields = []): self
     {
-        $this->securityGates[] = $name;
+        $this->securityGates[] = $fields === [] ? $name : [$name => $fields];
         return $this;
     }
 
