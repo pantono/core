@@ -7,7 +7,7 @@ class EndpointConfigCollection
     /**
      * @var EndpointConfig[]
      */
-    private array $endpoints = [];
+    protected array $endpoints = [];
 
 
     public function addEndpoint(string $name): EndpointConfig
