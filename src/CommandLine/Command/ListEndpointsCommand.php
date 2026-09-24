@@ -7,6 +7,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Pantono\Core\Router\Model\EndpointCollection;
+use Pantono\Contracts\Endpoint\EndpointDefinitionInterface;
 
 class ListEndpointsCommand extends Command
 {
@@ -35,11 +36,27 @@ class ListEndpointsCommand extends Command
                 $endpoint->getMethod(),
                 $endpoint->getRoute(),
                 $endpoint->getController() . (!$exists ? ' ***' : ''),
-                implode(', ', $endpoint->getSecurityGates())
+                $this->getSecurityGateList($endpoint)
             ];
         }
         $table->setRows($rows);
         $table->render();
         return 0;
+    }
+
+    /**
+     * @return array<int,string>
+     */
+    private function getSecurityGateList(EndpointDefinitionInterface $endpoint): array
+    {
+        $items = [];
+        foreach ($endpoint->getSecurityGates() as $item) {
+            $key = $item;
+            if (is_array($item)) {
+                $key = json_encode($item);
+            }
+            $items[] = $key;
+        }
+        return $items;
     }
 }
