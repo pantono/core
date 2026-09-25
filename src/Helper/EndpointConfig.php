@@ -46,6 +46,11 @@ class EndpointConfig
         return $this;
     }
 
+    public function withPermission(string $name): self
+    {
+        return $this->addSecurityGate('HasPermission', ['permission' => $name]);
+    }
+
     public function addDependency(string $name): self
     {
         $this->dependencies[] = $name;
