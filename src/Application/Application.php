@@ -274,12 +274,13 @@ abstract class Application
         $connectionCollection = $this->container->getService('DatabaseConnectionCollection');
         $db = $connectionCollection->getDefaultConnection();
         $sessionExpiryTime = $this->container->getConfig()->getApplicationConfig()->getValue('session_time', 86400);
+        $sessionCookieName = $this->container->getConfig()->getApplicationConfig()->getValue('session_cookie_name', 'PNTOID');
         $connection = $db->getDoctrineConnection()->getNativeConnection();
         if (!$connection instanceof \PDO) {
             throw new \RuntimeException('Database connection is not a PDO instance');
         }
         $handler = new PdoSessionHandler($connection, ['db_table' => ApplicationHelper::appendTablePrefix('sessions'), 'lock_mode' => PdoSessionHandler::LOCK_NONE]);
-        $storage = new NativeSessionStorage(['use_strict_mode' => 0, 'gc_maxlifetime' => $sessionExpiryTime, 'cookie_lifetime' => $sessionExpiryTime], $handler);
+        $storage = new NativeSessionStorage(['name' => $sessionCookieName, 'use_strict_mode' => 0, 'gc_maxlifetime' => $sessionExpiryTime, 'cookie_lifetime' => $sessionExpiryTime], $handler);
         $session = new Session($storage);
         $session->start();
         $this->container->addService('Session', $session);
