@@ -7,12 +7,16 @@ use Pantono\Core\Router\Model\EndpointDefinition;
 class EndpointConfig
 {
     private string $name;
-    private string $controller;
-    private string $route;
+    private ?string $controller = null;
+    private string $route = '';
     private string $method = 'GET';
     private array $securityGates = [];
     private array $fields = [];
     private array $dependencies = [];
+    /**
+     * @var array<string,class-string>
+     */
+    private array $routeCasts = [];
 
     public function __construct(string $name)
     {
@@ -30,6 +34,20 @@ class EndpointConfig
     public function setMethod(string $method): self
     {
         $this->method = $method;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param class-string $cast
+     * @return $this
+     */
+    public function addRouteCast(string $name, string $cast): self
+    {
+        if (!class_exists($cast)) {
+            throw new \RuntimeException(sprintf('Route cast class %s does not exist', $cast));
+        }
+        $this->routeCasts[$name] = $cast;
         return $this;
     }
 
@@ -177,6 +195,9 @@ class EndpointConfig
         if (!empty($this->securityGates)) {
             $data['security_gates'] = $this->securityGates;
         }
+        if (!empty($this->routeCasts)) {
+            $data['route_casts'] = $this->routeCasts;
+        }
         if (!empty($this->fields)) {
             $data['fields'] = $this->fields;
         }
@@ -187,12 +208,13 @@ class EndpointConfig
     public static function __set_state(array $data): object
     {
         $class = new EndpointConfig($data['name']);
-        $class->controller = $data['controller'];
-        $class->method = $data['method'];
-        $class->route = $data['route'];
-        $class->securityGates = $data['securityGates'];
-        $class->fields = $data['fields'];
-        $class->dependencies = $data['dependencies'];
+        $class->controller = $data['controller'] ?? null;
+        $class->method = $data['method'] ?? 'GET';
+        $class->route = $data['route'] ?? '';
+        $class->routeCasts = $data['routeCasts'] ?? [];
+        $class->securityGates = $data['securityGates'] ?? [];
+        $class->fields = $data['fields'] ?? [];
+        $class->dependencies = $data['dependencies'] ?? [];
         return $class;
     }
 }

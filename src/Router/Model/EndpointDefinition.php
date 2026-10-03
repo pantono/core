@@ -13,13 +13,14 @@ class EndpointDefinition implements EndpointDefinitionInterface
     private ?string $title;
     private ?string $description;
     private array $securityGates;
+    private array $routeCasts;
     private array $services;
     /**
      * @var EndpointField[]
      */
     private array $fields;
 
-    public function __construct(string $id, string $method, string $route, string $controller, ?string $title, ?string $description, array $securityGates = [], array $services = [], array $fields = [])
+    public function __construct(string $id, string $method, string $route, string $controller, ?string $title, ?string $description, array $securityGates = [], array $services = [], array $fields = [], array $routeCasts = [])
     {
         $this->id = $id;
         $this->method = strtolower($method);
@@ -34,6 +35,7 @@ class EndpointDefinition implements EndpointDefinitionInterface
             $endpointFields[] = EndpointField::fromArray($name, $field);
         }
         $this->fields = $endpointFields;
+        $this->routeCasts = $routeCasts;
     }
 
     public static function fromConfigArray(string $id, array $config): self
@@ -46,7 +48,7 @@ class EndpointDefinition implements EndpointDefinitionInterface
         if ($gates === null) {
             $gates = $config['security_gates'] ?? [];
         }
-        return new self($id, $config['method'], $config['route'], $config['controller'], $config['title'] ?? '', $config['description'] ?? '', $gates, $services, $config['fields'] ?? []);
+        return new self($id, $config['method'], $config['route'], $config['controller'], $config['title'] ?? '', $config['description'] ?? '', $gates, $services, $config['fields'] ?? [], $config['route_casts'] ?? []);
     }
 
     public function getId(): string
@@ -87,6 +89,11 @@ class EndpointDefinition implements EndpointDefinitionInterface
     public function getServices(): array
     {
         return $this->services;
+    }
+
+    public function getRouteCasts(): array
+    {
+        return $this->routeCasts;
     }
 
     public function getFields(): array
