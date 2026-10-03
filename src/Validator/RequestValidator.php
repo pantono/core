@@ -39,19 +39,6 @@ class RequestValidator
         } else {
             $params = new ParameterBag($request->request->all());
         }
-        foreach ($endpoint->getRouteCasts() as $field => $cast) {
-            if (!class_exists($cast)) {
-                throw new \Exception('Route cast class ' . $cast . ' does not exist');
-            }
-            $routeValue = $request->query->all()[$field] ?? null;
-            $castResult = $routeValue !== null && is_scalar($routeValue) ? $this->processCast($cast, $routeValue) : null;
-            if ($castResult === null) {
-                throw new NotFoundHttpException('404 Not Found');
-            }
-            // InputBag (query/request) cannot hold objects, so the cast value is exposed via attributes & processed parameters
-            $request->attributes->set($field, $castResult);
-            $params->set($field, $castResult);
-        }
         foreach ($endpoint->getFields() as $endpointField) {
             $inputValue = null;
             $field = new ValidationResultField();
