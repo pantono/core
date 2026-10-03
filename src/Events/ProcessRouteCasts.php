@@ -25,7 +25,6 @@ class ProcessRouteCasts implements EventSubscriberInterface
                 ['processCasts', 255]
             ]
         ];
-        // TODO: Implement getSubscribedEvents() method.
     }
 
     public function processCasts(PreRequestEvent $event): void
