@@ -13,7 +13,6 @@ use Pantono\Core\Validator\Validator\ValidatorAbstract;
 use Pantono\Core\Validator\Exception\ValidationException;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RequestValidator
 {
@@ -97,6 +96,7 @@ class RequestValidator
                         if (!$value) {
                             $field->setError($endpointField->getLabel() . ' is invalid or cannot be found');
                         } else {
+                            $request->attributes->set($field->getName(), $value);
                             $field->setValue($value);
                         }
                     }
